@@ -877,6 +877,46 @@
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Sélectionner tous les éléments à animer
+            const elementsToAnimate = document.querySelectorAll('.titre-page');
+
+            // 2. Définir les options de l'observateur
+            const observerOptions = {
+                root: null, // Par défaut, la fenêtre d'affichage (viewport)
+                rootMargin: '0px', // Marge autour du viewport
+                threshold: 0.1 // Déclencheur : 10% de l'élément doit être visible
+            };
+
+            // 3. La fonction à exécuter lorsque l'élément est vu (ou n'est plus vu)
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // L'élément est dans le viewport : on ajoute la classe 'visible'
+                        entry.target.classList.add('visible');
+
+                        // Optionnel : on arrête de l'observer pour ne pas redéclencher l'animation
+                        observer.unobserve(entry.target);
+                    } else {
+                        entry.target.classList.remove('visible');
+                    }
+                    // else {
+                    //   Si on voulait que l'animation se répète en sortant/rentrant, on ajouterait ici entry.target.classList.remove('visible');
+                    // }
+                });
+            };
+
+            // 4. Créer l'observateur
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+            // 5. Attacher l'observateur à chaque élément
+            elementsToAnimate.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+
 </body>
 
 </html>
