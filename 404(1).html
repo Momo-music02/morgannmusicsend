@@ -2,22 +2,18 @@
 <html lang="fr">
 
 <head>
-    <title>13 • Morgann Music Send</title>
+    <title>404 • Morgann Music Send</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta property="og:image" content="/13a.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http - equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-    <link rel="icon" href="favicon-32x32.png">
-    <meta property="og:description" content="13 sur toutes vos plateformes ! Découvrez 13 sur toutes vos plateformes préférées.">
+    <meta property="og:image" content="/ac.png">
+    <meta property="og:description" content="Tous les liens réunis. Découvrez Morgann Music de toutes les façons possibles.">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuMGFYw5U/yKzI5ZqD5v/e10z1x6+3Rz4m0S9K0P8v6C5w==" crossorigin="anonymous" referrerpolicy="no-referrer"
     />
-    <meta property="og:type" content="website">
+
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icons.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16 .png">
     <link rel="icon" type="image/ico" sizes="48x48" href="/favicon .ico">
@@ -41,49 +37,117 @@
 
 
 
-
-
     <meta name="theme-color" content="#ffffff">
 
     <link href="https://fonts.googleapis.com/css2?family=Gasoek+One&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
+    <script>
+        // Inscription des plugins GSAP
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger, SplitText);
+
+            // --- 1. Animation des Liens des Plateformes (Montée séquentielle au scroll) ---
+            gsap.from("#image-container a", {
+                opacity: 0,
+                y: 100,
+                duration: 3,
+                stagger: 0.15,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: "#image-container",
+                    start: "top 80%",
+                    end: "bottom center",
+                    scrub: 1,
+                },
+            });
+
+
+            // --- 2. Animation d'apparition du Texte Principal (Au chargement) ---
+            gsap.from(".text-hover", {
+                y: -50,
+                opacity: 0,
+                duration: 1.5,
+                delay: 0.5,
+                ease: "power3.out",
+            });
+
+            // --- 3. Animation du Titre Morgann Music Send (SplitText par mot) ---
+            const heroTextSplit = new SplitText("#morgann-text", {
+                type: "words"
+            });
+
+            gsap.from(heroTextSplit.words, {
+                y: 50,
+                opacity: 0,
+                rotationX: -90,
+                stagger: 0.1,
+                duration: 1,
+                ease: "back.out(1.7)",
+                scrollTrigger: {
+                    trigger: "#morgann-text",
+                    start: "top 80%",
+                    toggleActions: "play none none reverse",
+                },
+            });
+
+            // --- 4. Animation de la Barre de Séparation (Progression au scroll) ---
+            gsap.utils.toArray(".simple-separator").forEach(separator => {
+                gsap.from(separator, {
+                    scaleX: 0,
+                    transformOrigin: "center right",
+                    duration: 1.5,
+                    ease: "power4.out",
+                    scrollTrigger: {
+                        trigger: separator,
+                        start: "top 95%",
+                        end: "bottom 50%",
+                        scrub: 0.5,
+                        toggleActions: "play none none reverse",
+                    }
+                });
+            });
+        });
+    </script>
+
     <style>
          :root {
-            --body-bg-start: #fff0af;
-            --body-bg-end: #ffa4d2;
-            --text-color-1: #ef7946;
-            --text-color-105: #ea92c6;
-            --text-color-108: #eda022;
-            --text-color-102: #f8f1aa;
-            --text-color-11: #ff58c2;
+            --body-bg-start: #de85de;
+            --body-bg-end: #f989c1;
+            --text-color-1: #9b2029;
+            --text-color-105: #992a99;
+            --text-color-108: #da12da;
+            --text-color-102: #c32d6b;
+            --text-color-11: #c307c3;
             --text-color: #9827e8;
-            --text-color2: #ffffff;
+            --text-color2: #eecce7;
             --nbscr: rgba(255, 255, 255, 0.5);
             --texte-color3: #992a99;
             --texte-color-btn: rgb(235, 135, 208, 0.8);
-            --btn-info: rgba(241, 231, 152, 0.379);
-            --mms-txt: #ffffff;
-            --titre: #ffffff;
+            --btn-info: rgba(234, 183, 220, 0.985);
+            --mms-txt: #eecce7;
+            --titre: #eecce7;
+            --ss: #9a2e605a;
         }
         
         @media (prefers-color-scheme: dark) {
              :root {
-                --body-bg-start: #706846;
+                --body-bg-start: #663b66;
                 /* Bleu nuit foncé */
-                --body-bg-end: #693d53;
-                --text-color-1: #683119;
-                --text-color-105: #6d3a58;
-                --text-color-108: #684409;
-                --text-color-102: #706846;
-                --text-color-11: #5f334d;
+                --body-bg-end: #622543;
+                --text-color-1: #593b59;
+                --text-color-105: #4c197c;
+                --text-color-108: #631f63;
+                --text-color-102: #270e3a;
+                --text-color-11: #5f335f;
                 --text-color: #45162c;
                 --text-color2: #f7f6f7;
                 --nbscr: rgba(255, 255, 255, 0.2);
                 --texte-color3: #992a99;
                 --texte-color-btn: #643054;
-                --btn-info: rgba(95, 100, 48, 0.301);
+                --btn-info: rgba(100, 48, 84, 0.525);
                 --mms-txt: #ffffff;
-                --titre: #ffffff;
+                --titre: #f989c1;
+                --ss: #f1bcf1;
             }
         }
         
@@ -105,7 +169,7 @@
         .simple-separator {
             height: 0.5px;
             /* Épaisseur de la barre */
-            background-color: #beb4465a;
+            background-color: var(--ss);
             /* Couleur grise neutre et unie */
             margin: 50px auto;
             /* 50px de marge verticale, 'auto' pour centrer horizontalement */
@@ -119,6 +183,40 @@
             /* Un léger arrondi aux coins */
             /* J'ai retiré toutes les propriétés liées au texte, dégradé, flexbox, et ombre prononcée. */
         }
+        
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            /* espace entre les boutons */
+            margin-bottom: 30px;
+            /* espace avec le bouton voir plus */
+        }
+        
+        .btn {
+            background-color: #ffffff;
+            border: 2px solid var(--texte-color-btn);
+            color: #EA86D1;
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.8s;
+            box-shadow: 0 0 10px transparent;
+            min-width: 150px;
+            align-items: center;
+            margin-top: 80px;
+        }
+        
+        .btn:hover {
+            background-color: var(--text-color-btn);
+            box-shadow: 0 0 15px #ffffff;
+            border: 2px solid #ffffff;
+            transform: translateY(-2px);
+            color: #ffffff;
+            align-items: center;
+        }
         /* ===== NAVBAR ===== */
         
         .navbar {
@@ -126,23 +224,23 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0);
+            background: transparent;
             backdrop-filter: blur(10px);
             transition: 0.5s all;
             z-index: 1000;
-            color: #ffffff;
             cursor: pointer;
         }
         
         .navbar:hover {
             background: rgba(255, 255, 255, 0.25);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.567);
+            border-top-left-radius: 0;
+            /* Coin supérieur gauche */
         }
         
         .navbar.scrolled {
             background: var(--nbscr);
             backdrop-filter: blur(10px);
-            color: #444444;
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.567);
             border-top-left-radius: 0;
             /* Coin supérieur gauche */
@@ -151,7 +249,6 @@
             border-bottom-left-radius: 30px;
             /* Coin inférieur gauche arrondi */
             border-bottom-right-radius: 30px;
-            text-decoration-color: #444444;
         }
         
         .navbar.scrolled:hover {
@@ -195,7 +292,6 @@
         
         .navbar ul li a:hover {
             opacity: 0.7;
-            text-shadow: 0 0 50px rgba(0, 0, 0, 0.577);
         }
         
         .navbar .menu-toggle {
@@ -223,7 +319,7 @@
                 right: 0;
                 width: 200px;
                 /* Largeur réduite pour le menu latéral */
-                background: rgb(255, 226, 80);
+                background: rgb(255, 45, 255);
                 color: #992a99;
                 /* J'ai gardé votre couleur ajustée */
                 flex-direction: column;
@@ -259,6 +355,8 @@
             }
         }
         /* ===== TEXTE PRINCIPAL ===== */
+        /* Styles de base pour le conteneur du texte */
+        /* --- Styles de base pour l'apparence --- */
         
         .text-hover {
             font-family: 'Gasoek One', sans-serif;
@@ -344,6 +442,7 @@
             gap: 15px;
             width: 100%;
             margin: 0;
+            /* Assurez-vous que l'élément est aussi large que son contenu */
             padding: 0;
         }
         
@@ -372,6 +471,47 @@
                 gap: 30px;
             }
             #image-container img {
+                width: 250px;
+            }
+        }
+        
+        #image-container-2 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            margin: 0;
+            /* Assurez-vous que l'élément est aussi large que son contenu */
+            padding: 0;
+        }
+        
+        #image-container-2 img {
+            display: block;
+            width: 200px;
+            height: auto;
+            /* Ou une hauteur fixe comme 150px si tu veux une taille uniforme */
+            object-fit: cover;
+            /* Recadre l'image pour remplir sans déformer */
+            cursor: pointer;
+            max-width: 100%;
+            /* La transition pour la fluidité du zoom */
+            transition: transform 0.3s ease-in-out;
+        }
+        /* L'effet de zoom quand la souris passe sur l'image */
+        
+        #image-container-2 img:hover {
+            transform: scale(1.3);
+            /* Grossit l'image de 10% */
+        }
+        
+        @media (min-width: 768px) {
+            #image-container-2 {
+                flex-direction: row;
+                gap: 30px;
+            }
+            #image-container-2 img {
                 width: 250px;
             }
         }
@@ -566,8 +706,8 @@
             font-weight: 400;
             /* Pacifico n'a pas de graisse (weight) à définir */
             /* DÉGRADÉ (L'effet "Air") */
-            background-image: linear-gradient( 90deg, #f6df0e, /* Violet */
-            #ff7ae7/* Bleu */
+            background-image: linear-gradient( 90deg, #f755c9, /* Violet */
+            #d246e5/* Bleu */
             );
             /* Ces propriétés appliquent le dégradé uniquement au texte */
             -webkit-background-clip: text;
@@ -596,11 +736,19 @@
             transform: translateY(-20px);
             /* Se soulève comme les autres mots */
         }
+        
+        p {
+            text-align: center;
+            font-family: 'helvetica', sans-serif;
+            font-size: 1.2em;
+            color: var(--mms-txt);
+        }
     </style>
 </head>
 
 <body>
 
+    <!-- NAVBAR -->
     <header class="navbar" id="navbar">
         <nav>
             <div class="logo">
@@ -614,9 +762,8 @@
                 <!-- MODIFIEZ CES LIENS pour votre nouveau site -->
                 <li><a href="index.html">Menu</a></li>
                 <li><a href="plateformes.html">Plateformes</a></li>
+                <li><a href="funky.html">Funky</a></li>
                 <li><a href="éther.html">Éther</a></li>
-                <li><a href="LEVEL-UP.html">LEVEL UP</a></li>
-
 
             </ul>
         </nav>
@@ -625,150 +772,52 @@
     <!-- TEXTE PRINCIPAL -->
     <div class="text-hover">
         <span class="word">
-      <span class="letter">J</span><span class="letter">e</span>
+      <span class="letter">L</span><span class="letter">a</span>
         </span>
+
         <span class="word">
-      <span class="letter">f</span><span class="letter">a</span><span class="letter">i</span><span class="letter">s</span>
+      <span class="letter">P</span><span class="letter">a</span><span class="letter">g</span><span class="letter">e</span>
         </span>
+
         <span class="word">
-      <span class="letter">d</span><span class="letter">e</span>
+      <span class="letter">i</span><span class="letter">n</span><span class="letter">d</span><span class="letter">i</span><span class="letter">q</span><span class="letter">u</span><span class="letter">é</span><span class="letter">e</span>
         </span>
+
         <span class="word">
-      <span class="letter">l</span><span class="letter">a</span>
+      <span class="letter">n</span><span class="letter">'</span><span class="letter">e</span><span class="letter">x</span><span class="letter">i</span><span class="letter">s</span><span class="letter">t</span><span class="letter">e</span>
+        <span class="letter"> </span>
         </span>
+
         <span class="word">
-      <span class="letter">m</span><span class="letter">u</span><span class="letter">s</span><span class="letter">i</span><span class="letter">q</span><span class="letter">u</span><span class="letter">e</span><span class="letter">,</span>
+      <span class="letter">p</span><span class="letter">a</span><span class="letter">s</span>
         </span>
+
         <span class="word">
-      <span class="letter">e</span><span class="letter">t</span>
-        </span>
-        <span class="word">
-      <span class="letter">j</span><span class="letter">e</span>
-        </span>
-        <span class="word">
-      <span class="letter">l</span><span class="letter">a</span>
-        </span>
-        <span class="word">
-      <span class="letter">p</span><span class="letter">o</span><span class="letter">s</span><span class="letter">t</span><span class="letter">e</span>
+      <span class="letter">😢</span>
         </span>
     </div>
 
     <div class="simple-separator"></div>
 
     <div id="morgann-text" class="hero-text2">
-        <span class="word">Morgann</span>
-        <span class="word">Music</span>
+        <span class="word">404</span>
+
 
     </div>
 
+    <p>Sorry 😓</p>
     <div class="simple-separator"></div>
 
-    <div class="titre-page">
-        <h1>Lien vers 13 ! 🔗</h1>
+    <div class="row">
+        <a href="index.html">
+            <button class="btn">Accueil</button>
 
-    </div>
-
-    <div id="image-container">
-        <!-- Image Apple avec lien -->
-        <a href="https://music.apple.com/fr/album/13-ep/1852072848" target="_blank">
-            <img src="apple.png" alt="Lien vers Apple">
-        </a>
-
-        <!-- Image Spotify avec lien -->
-        <a href="https://open.spotify.com/intl-fr/album/6PVVgBx81pAYzNEb1XrM9c?si=QDFP13D5RImhM5OC5OZz4w" target="_blank">
-            <img src="spotify.png" alt="Lien vers Spotify">
-        </a>
-
-        <!-- Image Deezer avec lien -->
-        <a href="https://link.deezer.com/s/31zO7zR8msQDMEjkTOu8Z" target="_blank">
-            <img src="deezer.png" alt="Lien vers Deezer">
-        </a>
-
-        <!-- Image YouTube avec lien -->
-        <a href="https://music.youtube.com/playlist?list=OLAK5uy_nQqKvw5xjHEIrEVunyUAhezab7eK9eyjU&si=gdQ3Ja_uj2_cCT03" target="_blank">
-            <img src="yt.png" alt="Lien vers YouTube Music">
         </a>
     </div>
 
-    <div class="simple-separator"></div>
 
-    <div class="pied-de-page">
-        <p>Morgann Music © 2025 Tout droits réserver.</p>
-    </div>
-
-    <div class="info-bouton-wrapper">
-        <button class="info-bouton">
-    <img src="logo.png" alt="Icône d'information" class="bouton-icone">
-    <span class="info-texte">Version :  2.0.5</span>
-  </button>
-    </div>
 
     <script>
-        // Inscription des plugins GSAP
-        document.addEventListener("DOMContentLoaded", (event) => {
-            gsap.registerPlugin(ScrollTrigger, SplitText);
-
-            // --- 1. Animation des Liens des Plateformes (Montée séquentielle au scroll) ---
-            gsap.from("#image-container a", {
-                opacity: 0,
-                y: 100,
-                duration: 3,
-                stagger: 0.15,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: "#image-container",
-                    start: "top 80%",
-                    end: "bottom center",
-                    scrub: 1,
-                },
-            });
-
-            // --- 2. Animation d'apparition du Texte Principal (Au chargement) ---
-            gsap.from(".text-hover", {
-                y: -50,
-                opacity: 0,
-                duration: 1.5,
-                delay: 0.5,
-                ease: "power3.out",
-            });
-
-            // --- 3. Animation du Titre Morgann Music Send (SplitText par mot) ---
-            const heroTextSplit = new SplitText("#morgann-text", {
-                type: "words"
-            });
-
-            gsap.from(heroTextSplit.words, {
-                y: 50,
-                opacity: 0,
-                rotationX: -90,
-                stagger: 0.1,
-                duration: 1,
-                ease: "back.out(1.7)",
-                scrollTrigger: {
-                    trigger: "#morgann-text",
-                    start: "top 80%",
-                    toggleActions: "play none none reverse",
-                },
-            });
-
-            // --- 4. Animation de la Barre de Séparation (Progression au scroll) ---
-            gsap.utils.toArray(".simple-separator").forEach(separator => {
-                gsap.from(separator, {
-                    scaleX: 0,
-                    transformOrigin: "center right",
-                    duration: 1.5,
-                    ease: "power4.out",
-                    scrollTrigger: {
-                        trigger: separator,
-                        start: "top 95%",
-                        end: "bottom 50%",
-                        scrub: 0.5,
-                        toggleActions: "play none none reverse",
-                    }
-                });
-            });
-        });
-
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -858,64 +907,7 @@
                 infoBouton.classList.toggle('ouvert');
             });
         });
-
-        gsap.utils.toArray(".simple-separator").forEach(separator => {
-            gsap.from(separator, {
-                scaleX: 0,
-                transformOrigin: "center right",
-                duration: 1.5,
-                ease: "power4.out",
-                scrollTrigger: {
-                    trigger: separator,
-                    start: "top 95%",
-                    end: "bottom 50%",
-                    scrub: 0.5,
-                    toggleActions: "play none none reverse",
-                }
-            });
-        });
     </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Sélectionner tous les éléments à animer
-            const elementsToAnimate = document.querySelectorAll('.titre-page');
-
-            // 2. Définir les options de l'observateur
-            const observerOptions = {
-                root: null, // Par défaut, la fenêtre d'affichage (viewport)
-                rootMargin: '0px', // Marge autour du viewport
-                threshold: 0.1 // Déclencheur : 10% de l'élément doit être visible
-            };
-
-            // 3. La fonction à exécuter lorsque l'élément est vu (ou n'est plus vu)
-            const observerCallback = (entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // L'élément est dans le viewport : on ajoute la classe 'visible'
-                        entry.target.classList.add('visible');
-
-                        // Optionnel : on arrête de l'observer pour ne pas redéclencher l'animation
-                        observer.unobserve(entry.target);
-                    } else {
-                        entry.target.classList.remove('visible');
-                    }
-                    // else {
-                    //   Si on voulait que l'animation se répète en sortant/rentrant, on ajouterait ici entry.target.classList.remove('visible');
-                    // }
-                });
-            };
-
-            // 4. Créer l'observateur
-            const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-            // 5. Attacher l'observateur à chaque élément
-            elementsToAnimate.forEach(element => {
-                observer.observe(element);
-            });
-        });
-    </script>
-
 </body>
 
 </html>

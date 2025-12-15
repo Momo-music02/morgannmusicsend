@@ -2,15 +2,15 @@
 <html lang="fr">
 
 <head>
-    <title>13 • Morgann Music Send</title>
+    <title>LEVEL UP • Morgann Music Send</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta property="og:image" content="/13a.png">
+    <meta property="og:image" content="/banether.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http - equiv="X-UA-Compatible" content="IE=edge">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <link rel="icon" href="favicon-32x32.png">
-    <meta property="og:description" content="13 sur toutes vos plateformes ! Découvrez 13 sur toutes vos plateformes préférées.">
+    <meta property="og:description" content="Éther sort le 25 Décembre sur toutes vos plateformes 🎁🎄 !">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -46,42 +46,43 @@
     <meta name="theme-color" content="#ffffff">
 
     <link href="https://fonts.googleapis.com/css2?family=Gasoek+One&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 
     <style>
          :root {
-            --body-bg-start: #fff0af;
-            --body-bg-end: #ffa4d2;
-            --text-color-1: #ef7946;
-            --text-color-105: #ea92c6;
-            --text-color-108: #eda022;
-            --text-color-102: #f8f1aa;
-            --text-color-11: #ff58c2;
-            --text-color: #9827e8;
+            --body-bg-start: #548f3b;
+            --body-bg-end: #6f9244;
+            --text-color-1: #c1ff72;
+            --text-color-105: #7ed957;
+            --text-color-108: #c1ff72;
+            --text-color-102: #7ed957;
+            --text-color-11: #c1ff72;
+            --text-color: #d0d5ff;
             --text-color2: #ffffff;
             --nbscr: rgba(255, 255, 255, 0.5);
             --texte-color3: #992a99;
             --texte-color-btn: rgb(235, 135, 208, 0.8);
-            --btn-info: rgba(241, 231, 152, 0.379);
+            --btn-info: rgba(20, 152, 44, 0.658);
             --mms-txt: #ffffff;
             --titre: #ffffff;
         }
         
         @media (prefers-color-scheme: dark) {
              :root {
-                --body-bg-start: #706846;
-                /* Bleu nuit foncé */
-                --body-bg-end: #693d53;
-                --text-color-1: #683119;
-                --text-color-105: #6d3a58;
-                --text-color-108: #684409;
-                --text-color-102: #706846;
-                --text-color-11: #5f334d;
-                --text-color: #45162c;
+                --body-bg-start: #2d4f1f;
+                --body-bg-end: #3a4b24;
+                --text-color-1: #9dd259;
+                --text-color-105: #65af45;
+                --text-color-108: #82ae4a;
+                --text-color-102: #67b645;
+                --text-color-11: #94c454;
                 --text-color2: #f7f6f7;
                 --nbscr: rgba(255, 255, 255, 0.2);
                 --texte-color3: #992a99;
                 --texte-color-btn: #643054;
-                --btn-info: rgba(95, 100, 48, 0.301);
+                --btn-info: rgba(14, 203, 61, 0.301);
                 --mms-txt: #ffffff;
                 --titre: #ffffff;
             }
@@ -222,16 +223,16 @@
                 top: 65px;
                 right: 0;
                 width: 200px;
-                /* Largeur réduite pour le menu latéral */
-                background: rgb(255, 226, 80);
-                color: #992a99;
-                /* J'ai gardé votre couleur ajustée */
                 flex-direction: column;
+                /* Largeur réduite pour le menu latéral */
+                background: rgba(8, 111, 22, 0.896);
+                color: #ffffff;
+                /* J'ai gardé votre couleur ajustée */
                 align-items: flex-start;
                 backdrop-filter: blur(10px);
                 padding: 15px;
-                /* STRATÉGIE pour la visibilité et éviter le blocage des clics */
                 display: flex;
+                /* STRATÉGIE pour la visibilité et éviter le blocage des clics */
                 visibility: hidden;
                 /* Cache le menu */
                 pointer-events: none;
@@ -334,6 +335,15 @@
             margin-top: 20px;
             margin-bottom: 20px;
             color: var(--text-color2);
+            opacity: 0;
+            transform: translateY(20px);
+            /* La transition rend le changement d'état fluide */
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        
+        .titre-page.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         #image-container {
@@ -596,11 +606,57 @@
             transform: translateY(-20px);
             /* Se soulève comme les autres mots */
         }
+        
+        h4 {
+            font-size: 1.5em;
+            margin-bottom: 25px;
+        }
+        
+        .titre-level-up {
+            font-size: 6em;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-family: "Anton", sans-serif;
+            text-align: center;
+            /* 1. Définir le dégradé comme arrière-plan */
+            background-image: linear-gradient( 180deg, /* Angle : de haut en bas */
+            #c1ff72, /* Couleur de départ (Haut) : Vert très clair */
+            #7ed957 100%/* Couleur d'arrivée (Bas) : Vert foncé (atteint 100% à la fin) */
+            );
+            /* 2. Limiter l'arrière-plan à la forme du texte (le "clip") */
+            -webkit-background-clip: text;
+            background-clip: text;
+            /* 3. Rendre la couleur du texte transparente */
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+        
+        .titre-level-up:hover {
+            transform: scale(1.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .liste-album {
+            font-family: 'helvetica', sans-serif;
+            font-size: 1.5em;
+            color: var(--text-color2);
+            text-align: left;
+            margin-left: 120px;
+        }
+        
+        .paragraphe {
+            font-family: 'helvetica', sans-serif;
+            font-size: 1.2em;
+            color: var(--text-color2);
+            text-align: center;
+            margin: 0 100px;
+        }
     </style>
 </head>
 
 <body>
 
+    <!-- NAVBAR -->
     <header class="navbar" id="navbar">
         <nav>
             <div class="logo">
@@ -655,44 +711,70 @@
 
     <div class="simple-separator"></div>
 
-    <div id="morgann-text" class="hero-text2">
-        <span class="word">Morgann</span>
-        <span class="word">Music</span>
+    <div class="titre-level-up">
+        <h5>LEVEL UP</h5>
+    </div>
+
+    <div class="titre-page">
+        <h1>sort le 1er Janvier 🎆🎊</h1>
 
     </div>
 
     <div class="simple-separator"></div>
 
+    <div class="paragraphe">
+        <p>Un album pour commencer l'année ! LEVEL UP est un album qui reflète la montée en puissance, la détermination à atteindre de nouveaux sommets. Chaque piste est conçue pour inspirer, motiver et encourager l'auditeur à embrasser le changement positif.</p>
+    </div>
+
+    <div class="simple-separator"></div>
+
+    <div class="liste-album">
+        <ul>
+            <li>LEVEL UP</li>
+            <li>Funky</li>
+            <li>Émotion</li>
+            <li>Lueur</li>
+            <li>New</li>
+            <li>Earley Days</li>
+            <li>Beautiful Memories</li>
+            <li>Always Tomorrow</li>
+            <li>Ancient Shrine</li>
+        </ul>
+    </div>
+
+    <div class="simple-separator"></div>
+
     <div class="titre-page">
-        <h1>Lien vers 13 ! 🔗</h1>
+        <h1>Lien vers mes plateformes ! 🔗</h1>
 
     </div>
 
     <div id="image-container">
         <!-- Image Apple avec lien -->
-        <a href="https://music.apple.com/fr/album/13-ep/1852072848" target="_blank">
+        <a href="https://music.apple.com/fr/artist/morgann-music/1820890727" target="_blank">
             <img src="apple.png" alt="Lien vers Apple">
         </a>
 
         <!-- Image Spotify avec lien -->
-        <a href="https://open.spotify.com/intl-fr/album/6PVVgBx81pAYzNEb1XrM9c?si=QDFP13D5RImhM5OC5OZz4w" target="_blank">
+        <a href="https://open.spotify.com/intl-fr/artist/0WJlJdaavSKPNoCSSHb8OC?si=iWMUCcMzTGiiWx-EI9pkpw" target="_blank">
             <img src="spotify.png" alt="Lien vers Spotify">
         </a>
 
         <!-- Image Deezer avec lien -->
-        <a href="https://link.deezer.com/s/31zO7zR8msQDMEjkTOu8Z" target="_blank">
+        <a href="https://www.deezer.com/fr/artist/330395931" target="_blank">
             <img src="deezer.png" alt="Lien vers Deezer">
         </a>
 
         <!-- Image YouTube avec lien -->
-        <a href="https://music.youtube.com/playlist?list=OLAK5uy_nQqKvw5xjHEIrEVunyUAhezab7eK9eyjU&si=gdQ3Ja_uj2_cCT03" target="_blank">
-            <img src="yt.png" alt="Lien vers YouTube Music">
+        <a href="https://music.youtube.com/channel/UCsnyx7G0XZhbhFAND2HXLpg" target="_blank">
+            <img src="yt.png" alt="Lien vers YouTube">
         </a>
     </div>
 
     <div class="simple-separator"></div>
 
     <div class="pied-de-page">
+        <h4>Précommande sur iTunes & Amazon à partir de 2.58 soit 1.29/son</h4>
         <p>Morgann Music © 2025 Tout droits réserver.</p>
     </div>
 
@@ -729,6 +811,14 @@
                 opacity: 0,
                 duration: 1.5,
                 delay: 0.5,
+                ease: "power3.out",
+            });
+
+            gsap.from(".titre-level-up", {
+                y: -60,
+                opacity: 0,
+                duration: 1.5,
+                delay: 0.9,
                 ease: "power3.out",
             });
 
@@ -848,34 +938,6 @@
             console.error("Erreur: Les éléments .hero-text ou .morgann-music n'ont pas été trouvés dans le DOM.");
         }
     </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const infoBouton = document.querySelector('.info-bouton');
-
-            infoBouton.addEventListener('click', function() {
-                // Inverse la classe 'ouvert' : si elle est là, il l'enlève ; sinon, il l'ajoute.
-                infoBouton.classList.toggle('ouvert');
-            });
-        });
-
-        gsap.utils.toArray(".simple-separator").forEach(separator => {
-            gsap.from(separator, {
-                scaleX: 0,
-                transformOrigin: "center right",
-                duration: 1.5,
-                ease: "power4.out",
-                scrollTrigger: {
-                    trigger: separator,
-                    start: "top 95%",
-                    end: "bottom 50%",
-                    scrub: 0.5,
-                    toggleActions: "play none none reverse",
-                }
-            });
-        });
-    </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // 1. Sélectionner tous les éléments à animer
@@ -912,6 +974,32 @@
             // 5. Attacher l'observateur à chaque élément
             elementsToAnimate.forEach(element => {
                 observer.observe(element);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoBouton = document.querySelector('.info-bouton');
+
+            infoBouton.addEventListener('click', function() {
+                // Inverse la classe 'ouvert' : si elle est là, il l'enlève ; sinon, il l'ajoute.
+                infoBouton.classList.toggle('ouvert');
+            });
+        });
+
+        gsap.utils.toArray(".simple-separator").forEach(separator => {
+            gsap.from(separator, {
+                scaleX: 0,
+                transformOrigin: "center right",
+                duration: 1.5,
+                ease: "power4.out",
+                scrollTrigger: {
+                    trigger: separator,
+                    start: "top 95%",
+                    end: "bottom 50%",
+                    scrub: 0.5,
+                    toggleActions: "play none none reverse",
+                }
             });
         });
     </script>
