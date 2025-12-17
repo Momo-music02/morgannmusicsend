@@ -643,7 +643,6 @@
             text-align: center;
             font-family: 'helvetica', sans-serif;
             color: var(--mms-txt);
-            margin-bottom: 50px;
         }
         
         .hero-text2 {
@@ -701,6 +700,40 @@
             filter: brightness(1.2);
             transform: translateY(-20px);
             /* Se soulève comme les autres mots */
+        }
+        
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            /* espace entre les boutons */
+            margin-bottom: 30px;
+            /* espace avec le bouton voir plus */
+        }
+        
+        .btn {
+            background-color: #ffffff;
+            border: 2px solid var(--texte-color-btn);
+            color: #EA86D1;
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.8s;
+            box-shadow: 0 0 10px transparent;
+            min-width: 150px;
+            align-items: center;
+            margin-top: 80px;
+        }
+        
+        .btn:hover {
+            background-color: var(--text-color-btn);
+            box-shadow: 0 0 15px #ffffff;
+            border: 2px solid #ffffff;
+            transform: translateY(-2px);
+            color: #ffffff;
+            align-items: center;
         }
     </style>
 </head>
@@ -893,6 +926,13 @@
     <img src="logo.png" alt="Icône d'information" class="bouton-icone">
     <span class="info-texte">Version :  2.0.8</span>
   </button>
+    </div>
+
+    <div class="row">
+        <a href="https://github.com/Momo-music02/morgannmusicsend">
+            <button class="btn">Send Github</button>
+
+        </a>
     </div>
 
     <script>
