@@ -719,7 +719,7 @@
     <div class="info-bouton-wrapper">
         <button class="info-bouton">
     <img src="logo.png" alt="Icône d'information" class="bouton-icone">
-    <span class="info-texte">Version :  2.0.5</span>
+    <span class="info-texte">Version :  2.0.8</span>
   </button>
     </div>
 
@@ -771,23 +771,9 @@
                 },
             });
 
-            // --- 4. Animation de la Barre de Séparation (Progression au scroll) ---
-            gsap.utils.toArray(".simple-separator").forEach(separator => {
-                gsap.from(separator, {
-                    scaleX: 0,
-                    transformOrigin: "center right",
-                    duration: 1.5,
-                    ease: "power4.out",
-                    scrollTrigger: {
-                        trigger: separator,
-                        start: "top 95%",
-                        end: "bottom 50%",
-                        scrub: 0.5,
-                        toggleActions: "play none none reverse",
-                    }
-                });
-            });
         });
+        // --- 4. Animation de la Barre de Séparation (Progression au scroll) ---
+
 
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
@@ -867,6 +853,23 @@
         } else {
             console.error("Erreur: Les éléments .hero-text ou .morgann-music n'ont pas été trouvés dans le DOM.");
         }
+
+        gsap.utils.toArray(".simple-separator").forEach(separator => {
+        gsap.from(separator, {
+            scaleX: 0,
+            transformOrigin: "center right",
+            duration: 1.5,
+            ease: "power4.out",
+            scrollTrigger: {
+                trigger: separator,
+                start: "top 95%",
+                end: "bottom 50%",
+                scrub: 0.5,
+                toggleActions: "play none none reverse",
+            }
+        });
+        });
+        });
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -932,6 +935,7 @@
                 }
             });
         });
+    </script>
     </script>
 
 </body>
