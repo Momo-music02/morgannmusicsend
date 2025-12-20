@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 • Morgann Music Send</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+         :root {
+            --body-bg-start: #db4c00;
+            --body-bg-end: #be0068;
+            --nbscr: rgba(255, 255, 255, 0.564);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+             :root {
+                --body-bg-start: #782a00;
+                --body-bg-end: #6a003a;
+                --nbscr: rgba(0, 0, 0, 0.56);
+            }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 200vh;
+            background-image: linear-gradient(160deg, var(--body-bg-start) 0%, var(--body-bg-end) 100%);
+            color: #ffffff;
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
+        /* --- NAVIGATION --- */
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: transparent;
+            backdrop-filter: blur(10px);
+            transition: 0.5s all;
+            z-index: 1000;
+            cursor: pointer;
+        }
+        
+        .navbar:hover {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.567);
+        }
+        
+        .navbar.scrolled {
+            background: var(--nbscr);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.73);
+            border-top-left-radius: 0;
+            /* Coin supérieur gauche */
+            border-top-right-radius: 0;
+            /* Coin supérieur droit */
+            border-bottom-left-radius: 30px;
+            /* Coin inférieur gauche arrondi */
+            border-bottom-right-radius: 30px;
+        }
+        /* Style spécifique quand on survole la timeline */
+        
+        .navbar.scrolled.on-timeline {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(2px) !important;
+            /* Baisse du flou */
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .navbar.scrolled:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.567);
+            border-top-left-radius: 0;
+            /* Coin supérieur gauche */
+            border-top-right-radius: 0;
+            /* Coin supérieur droit */
+            border-bottom-left-radius: 15px;
+            /* Coin inférieur gauche arrondi */
+            border-bottom-right-radius: 15px;
+        }
+        
+        .navbar nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 30px;
+        }
+        
+        .navbar .logo img {
+            height: 40px;
+            width: auto;
+            user-select: none;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+        
+        .navbar ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        
+        .navbar ul li a:hover {
+            opacity: 0.7;
+            text-shadow: 0 0 50px rgba(0, 0, 0, 0.577);
+        }
+        
+        .navbar .menu-toggle {
+            display: none;
+            font-size: 1.8em;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar .menu-toggle {
+                display: block;
+                /* FIX: Assure que le bouton est visible sur mobile */
+                position: relative;
+                z-index: 9999;
+                color: var(--text-color3);
+                /* Assure que le bouton est au-dessus de tout pour être cliquable */
+            }
+            .navbar ul {
+                /* Menu mobile réduit sur le côté */
+                position: absolute;
+                top: 65px;
+                right: 0;
+                width: 200px;
+                /* Largeur réduite pour le menu latéral */
+                background: rgb(227, 153, 26);
+                color: #997b2a;
+                /* J'ai gardé votre couleur ajustée */
+                flex-direction: column;
+                align-items: flex-start;
+                backdrop-filter: blur(10px);
+                padding: 15px;
+                /* STRATÉGIE pour la visibilité et éviter le blocage des clics */
+                display: flex;
+                visibility: hidden;
+                /* Cache le menu */
+                pointer-events: none;
+                /* TRÈS IMPORTANT: Empêche le menu masqué de bloquer le clic sur le bouton */
+                border-radius: 0 0 0 25px;
+                /* J'ai gardé votre rayon de bordure ajusté */
+                transition: transform 0.3s ease-out, visibility 0.3s;
+                transform: translateX(100%);
+                /* Masque le menu à droite (hors de vue) */
+            }
+            .navbar ul.active {
+                visibility: visible;
+                /* Révèle le menu */
+                pointer-events: all;
+                /* Permet d'interagir avec le menu */
+                transform: translateX(0);
+                /* Révèle le menu */
+            }
+            .navbar ul li {
+                width: 100%;
+                margin: 10px 0;
+            }
+            .navbar ul li a:hover {
+                text-decoration: underline;
+            }
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .marquee {
+            font-size: 20vw;
+            font-weight: 900;
+            white-space: nowrap;
+            display: flex;
+            text-transform: uppercase;
+            opacity: 0.8;
+            /* Le dégradé */
+            background-image: linear-gradient(180deg, #f6c099, #fe992e);
+            /* Applique le dégradé au texte */
+            -webkit-background-clip: text;
+            background-clip: text;
+            /* Rend le texte transparent pour laisser voir le dégradé derrière */
+            color: transparent;
+            /* Optionnel : pour que le dégradé ne se répète pas sur chaque mot mais sur toute la ligne */
+            background-size: cover;
+        }
+        
+        .marquee span {
+            padding: 0 50px;
+        }
+        /* --- GRID COVERS --- */
+        
+        .section-covers {
+            padding: 100px 5%;
+        }
+        
+        .grid-covers {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 50px;
+        }
+        
+        .cover {
+            aspect-ratio: 1/1;
+            background: #222;
+            border-radius: 60px;
+            overflow: hidden;
+            position: relative;
+            transform: translateY(100px);
+            opacity: 0;
+            cursor: pointer !important;
+            pointer-events: all !important;
+            z-index: 10;
+        }
+        
+        .cover img,
+        .cover video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+        }
+        /* --- TIMELINE (PARCOURS) --- */
+        
+        .timeline-section {
+            padding: 100px 5%;
+            position: relative;
+        }
+        
+        .timeline-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 50px;
+            position: relative;
+            opacity: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .timeline-content {
+            width: 45%;
+            background: var(--nbscr);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .timeline-content:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.567);
+        }
+        
+        .timeline-content:active {
+            border-radius: 50px;
+        }
+        
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            box-shadow: 0 0 15px white;
+            transition: all 0.3s;
+        }
+        
+        .timeline-dot:hover {
+            box-shadow: 0 0 34px white;
+        }
+        /* --- MODAL --- */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.333);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: var(--nbscr);
+            width: 100%;
+            backdrop-filter: blur(10px);
+            max-width: 500px;
+            border-radius: 30px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-header {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        #modal-media-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 15px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        #modal-media-container img,
+        #modal-media-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .tracklist {
+            margin: 20px 0;
+            max-height: 200px;
+            overflow-y: auto;
+            border-top: 1px solid #ffffff;
+            padding-top: 15px;
+        }
+        
+        .track-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #ffffff;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-covers {
+                grid-template-columns: 1fr;
+            }
+            .marquee {
+                font-size: 35vw;
+            }
+            .timeline-container::before {
+                left: 20px;
+            }
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                flex-direction: row;
+                justify-content: flex-start;
+            }
+            .timeline-content {
+                width: 85%;
+                margin-left: 50px;
+            }
+            .timeline-dot {
+                left: 20px;
+            }
+        }
+        
+        .titre-tl {
+            text-align: left;
+            margin-left: 60px;
+            opacity: 0;
+            position: relative;
+        }
+        
+        .imge {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 35px;
+            margin-bottom: 60px;
+            margin-left: 60px;
+            width: 100%;
+            opacity: 0;
+            display: flex;
+            position: relative;
+        }
+        
+        .imge img {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 50px;
+            rotate: -5deg;
+        }
+        
+        .titre-tl2 {
+            text-align: right;
+            margin-right: 60px;
+            opacity: 0;
+            position: relative;
+        }
+        
+        .imge2 {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 35px;
+            margin-bottom: 60px;
+            margin-right: 60px;
+            opacity: 0;
+            display: flex;
+            position: relative;
+        }
+        
+        .imge2 img {
+            max-width: 420px;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 50px;
+            rotate: 5deg;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar" id="navbar">
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.webp" alt="Logo Morgann Music" />
+                </a>
+            </div>
+            <!-- Bouton Menu Hamburger -->
+            <button class="menu-toggle" id="menu-toggle">☰</button>
+            <ul id="nav-links">
+                <!-- MODIFIEZ CES LIENS pour votre nouveau site -->
+                <li><a href="index.html">Menu</a></li>
+                <li><a href="2025.html">2025</a></li>
+                <li><a href="plateformes.html">Plateformes</a></li>
+                <li><a href="éther.html">Éther</a></li>
+                <li><a href="LEVEL-UP.html">LEVEL UP</a></li>
+
+
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="marquee">
+            <span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span><span>2025</span>
+        </div>
+    </section>
+
+    <section class="section-covers">
+        <h2 style="font-size: 2rem; margin-bottom: 40px; text-align: center;">Top albums</h2>
+        <div class="grid-covers">
+            <div class="cover" data-title="Déjà" data-artist="Morgann Music" data-tracks="Accros the Liffey,Groovy,C'était Avant,À l'Acienne,Souvenir,Violon Vibe,Cosmic Flow,Sunshine Groove,Oh My Love,Dark Secret,Dark Secret Synth,Solaris" data-type="video" data-src="Déjà.mp4">
+                <video autoplay loop muted playsinline><source src="Déjà.mp4" type="video/mp4"></video>
+            </div>
+            <div class="cover" data-title="Oh My Love" data-artist="Morgann Music" data-tracks="Oh My Love,Oh My Love (Instrumental),Oh My Love (Sped Up),Oh My Love (Slowed)" data-type="video" data-src="Oh My Love .mp4.mp4">
+                <video autoplay loop muted playsinline><source src="Oh My Love .mp4.mp4" type="video/mp4"></video>
+            </div>
+            <div class="cover" data-title="13" data-artist="Morgann Music" data-tracks="Dank Forest,Big Dreams,Arround Midnight,Yearning" data-type="video" data-src="13mp4.mp4">
+                <video autoplay loop muted playsinline><source src="13mp4.mp4" type="video/mp4"></video>
+            </div>
+            <div class="cover" data-title="Slinki Groove" data-artist="Morgann Music" data-tracks="SLINKY GROOVE" data-type="img" data-src="Slinki Groove.png">
+                <img src="Slinki Groove.png" alt="Pochette">
+            </div>
+        </div>
+    </section>
+
+    <section class="timeline-section">
+        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 60px;">Parcours 2025</h2>
+        <div class="timeline-container">
+            <div class="timeline-item" data-side="left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Janvier</h3>
+                    <p>Lancement de l'année 2025 avec la creation de mon premier site fais avec Canva.</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-side="right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Février</h3>
+                    <p>Ma musique "Souvenir" est sortie sur YouTube. Une reprise a de ma toute première musique. Les première banière type image.</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-side="left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Mars</h3>
+                    <p>Premier trailer, premier rythme regulier sur les musqiue. Et l'anniversaire de ma chaine, l'anniversaire de Morgann Music, les 1 ans !</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-side="right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Avril</h3>
+                    <p>La sortie de Groovy pour le premier avril, musique qui a bien tenu la route. La sortie de Neon Dreams.Le premier feat avec Elia sur la reprise de Somebody That I Used to Know.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-side="left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Mai</h3>
+                    <p>Le 1er mai, la sortie de Neon Dreams Synth la "suite" de Neon Dreams.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-side="right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Juin</h3>
+                    <p>A la recherche d'un distributeur, je trouve iMusician, celui qui va booster toute ma chaine. La preparation de l'album Que du Nouveau pour enflamer le prochain mois.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-side="left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Juillet</h3>
+                    <p>Compte a rebours, poste, publicitées, la sortie de mon tout premier album "Que du Nouveau". Avec comme EP accompagnant "Tout est là".</p>
+                </div>
+            </div>
+
+
+            <div class="timeline-item" data-side="right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Août</h3>
+                    <p>Après la sortie de "Temps Clair", une nouvelle recherche de distributeur, DISTROKID, TOOLOST. Oui, les deux ! Ce qui annonce plein de nouveautées ! La creation de label Morgann Music CP, Creation du nouveau site avec Google Site, sortie
+                        du nouvel album bulle et préparation du nouvel album de la rentrée... Déjà ?!?.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-side="left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Septembre</h3>
+                    <p>Une nouvelle ère. Sortie de Déjà ?!?, apprentissage du code pour créé mon site web parfait.</p>
+                </div>
+            </div>
+
+
+            <div class="timeline-item" data-side="right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Octobre</h3>
+                    <p>La création de Morgann Music AI ! Des nuits blanches de recherches et de développement. Pour l'avoir terminé parfaitement. Certification de la chaine YouTube</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-side="left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Novembre</h3>
+                    <p>Développement de Morgann Music Send. Certification de la chaine YouTube de Elia</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-side="right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Décembre</h3>
+                    <p>Préparation de LEVEL UP et plein d'autre surprises pour 2026 !</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal" id="pochetteModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <div id="modal-media-container"></div>
+                <div class="modal-info">
+                    <h2 id="m-title">Titre</h2>
+                    <p id="m-artist">Artiste</p>
+                </div>
+            </div>
+            <div class="tracklist" id="m-tracks"></div>
+
+        </div>
+    </div>
+
+    <div class="titre-tl">
+        <h1>Premiers feats avec Elia</h1>
+    </div>
+
+    <div class="imge">
+        <img src="featelia.png" alt="Feat Elia">
+    </div>
+
+    <div class="titre-tl2">
+        <h1>Certification de la chaine</h1>
+    </div>
+
+    <div class="imge2">
+        <img src="crt.png" alt="Certification YouTube">
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // 1. Marquee
+                gsap.to(".marquee", {
+                    xPercent: -50,
+                    ease: "none",
+                    duration: 15,
+                    repeat: -1
+                });
+
+                // 2. Pochettes
+                gsap.to(".cover", {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.5,
+                    stagger: 0.2,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: ".grid-covers",
+                        start: "top 80%",
+                        end: "bottom 50%",
+                        scrub: 1
+                    }
+                });
+
+                // Animation de la Navbar lors de l'arrivée sur la Timeline
+
+
+                // Animation de l'ombre de la navbar spécifique à la timeline
+                // Animation de l'ombre de la navbar spécifique à la timeline
+                window.addEventListener('scroll', () => {
+                    const navbar = document.getElementById('navbar');
+                    // État 1 : Gestion du scroll de base (Ajout/Retrait de .scrolled)
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                        navbar.classList.remove('on-timeline'); // Sécurité : on retire tout en haut
+                    }
+                });
+
+                // État 2 : Gestion précise de la zone Timeline avec GSAP
+                ScrollTrigger.create({
+                    trigger: ".timeline-section",
+                    start: "top 20%",
+                    end: "bottom 80%",
+                    onEnter: () => document.getElementById('navbar').classList.add('on-timeline'),
+                    onLeave: () => document.getElementById('navbar').classList.remove('on-timeline'),
+                    onEnterBack: () => document.getElementById('navbar').classList.add('on-timeline'),
+                    onLeaveBack: () => document.getElementById('navbar').classList.remove('on-timeline')
+                });
+
+
+
+
+                // 3. Animation Parcours
+                document.querySelectorAll(".timeline-item").forEach(item => {
+                    const side = item.getAttribute("data-side");
+                    gsap.to(item, {
+                        opacity: 1,
+                        x: 0,
+                        duration: 1,
+                        startAt: {
+                            x: side === "left" ? -100 : 100
+                        },
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 80%",
+                            toggleActions: "play none none reverse"
+                        }
+                    });
+                });
+
+
+
+
+                document.querySelectorAll(".imge2").forEach(item => {
+                    const side = item.getAttribute("data-side");
+                    gsap.to(item, {
+                        opacity: 1,
+                        x: 0,
+                        duration: 1,
+                        startAt: {
+                            x: side === "left" ? -100 : 100
+                        },
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 80%",
+                            toggleActions: "play none none reverse"
+                        }
+                    });
+                });
+
+                document.querySelectorAll(".titre-tl2").forEach(item => {
+                    const side = item.getAttribute("data-side");
+                    gsap.to(item, {
+                        opacity: 1,
+                        x: 0,
+                        duration: 1,
+                        startAt: {
+                            x: side === "left" ? -100 : 100
+                        },
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 80%",
+                            toggleActions: "play none none reverse"
+                        }
+                    });
+                });
+
+                document.querySelectorAll(".imge").forEach(item => {
+                    const side = item.getAttribute("data-side");
+                    gsap.to(item, {
+                        opacity: 1,
+                        x: 0,
+                        duration: 1,
+                        startAt: {
+                            x: side === "right" ? 100 : -100
+                        },
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 80%",
+                            toggleActions: "play none none reverse"
+                        }
+                    });
+                });
+
+                document.querySelectorAll(".titre-tl").forEach(item => {
+                    const side = item.getAttribute("data-side");
+                    gsap.to(item, {
+                        opacity: 1,
+                        x: 0,
+                        duration: 1,
+                        startAt: {
+                            x: side === "right" ? 100 : -100
+                        },
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 80%",
+                            toggleActions: "play none none reverse"
+                        }
+                    });
+                });
+
+                // 4. Modal
+                const modal = document.getElementById("pochetteModal");
+                const closeModal = document.querySelector(".close-modal");
+                document.querySelectorAll(".cover").forEach(cover => {
+                    cover.addEventListener("click", () => {
+                        document.getElementById("m-title").innerText = cover.getAttribute("data-title");
+                        document.getElementById("m-artist").innerText = cover.getAttribute("data-artist");
+                        const tracks = cover.getAttribute("data-tracks").split(",");
+                        const container = document.getElementById("modal-media-container");
+                        container.innerHTML = cover.getAttribute("data-type") === "video" ?
+                            `<video autoplay loop muted playsinline><source src="${cover.getAttribute("data-src")}" type="video/mp4"></video>` :
+                            `<img src="${cover.getAttribute("data-src")}">`;
+
+                        const tracklist = document.getElementById("m-tracks");
+                        tracklist.innerHTML = "";
+                        tracks.forEach((t, i) => tracklist.innerHTML += `<div class="track-item">${i + 1}. ${t}</div>`);
+
+                        modal.style.display = "flex";
+                        gsap.fromTo(".modal-content", {
+                            scale: 0.8,
+                            opacity: 0
+                        }, {
+                            scale: 1,
+                            opacity: 1,
+                            duration: 0.4
+                        });
+                    });
+                });
+
+                closeModal.onclick = () => {
+                    gsap.to(".modal-content", {
+                        scale: 0.8,
+                        opacity: 0,
+                        duration: 0.3,
+                        onComplete: () => modal.style.display = "none"
+                    });
+                };
+                window.onclick = (e) => {
+                    if (e.target == modal) closeModal.onclick();
+                };
+
+                window.addEventListener('scroll', () => {
+                    const navbar = document.getElementById('navbar');
+                    window.scrollY > 50 ? navbar.classList.add('scrolled') : navbar.classList.remove('scrolled');
+                });
+            });
+        </script>
+</body>
+
+</html>
