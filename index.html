@@ -735,10 +735,56 @@
             color: #ffffff;
             align-items: center;
         }
+        /* ===== BONNE ANNÉE CONFETTI ===== */
+        
+        body.no-scroll {
+            overflow: hidden;
+            height: 100vh;
+        }
     </style>
 </head>
 
 <body>
+    <!-- BONNE ANNÉE OVERLAY -->
+    <div id="newyear-overlay" style="
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    backdrop-filter: blur(8px);
+    background: rgba(0,0,0,0.5);
+    z-index: 9998;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+">
+        <!-- CROIX DE FERMETURE -->
+        <div id="close-overlay" style="
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+        z-index: 10001;
+        user-select: none;
+    ">×</div>
+
+        <canvas id="confetti-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;"></canvas>
+        <div class="newyear-text" style="
+        color:white;
+        font-family: 'Gasoek One', sans-serif;
+        font-size: 80px;
+        text-align: center;
+        z-index:10000;
+        opacity:1;
+        transition: opacity 2s ease-out;
+    ">
+            Bonne Année 🎉
+        </div>
+    </div>
+
+
+
 
     <!-- NAVBAR -->
     <header class="navbar" id="navbar">
@@ -1067,6 +1113,130 @@
             });
         });
     </script>
+
+    <script>
+        function lancerConfettis(nb = 300) {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const confettis = [];
+            const groundY = canvas.height;
+
+            for (let i = 0; i < nb; i++) {
+                confettis.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * -canvas.height,
+                    r: Math.random() * 6 + 4,
+                    d: Math.random() * nb,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                    tilt: Math.random() * 10 - 10,
+                    tiltAngleIncremental: Math.random() * 0.07 + 0.05,
+                    tiltAngle: 0,
+                    speed: Math.random() * 2 + 2,
+                    landed: false
+                });
+            }
+
+            let fadeOutStarted = false;
+            let textOpacity = 1;
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                confettis.forEach(c => {
+                    ctx.beginPath();
+                    ctx.lineWidth = c.r / 2;
+                    ctx.strokeStyle = c.color;
+                    ctx.moveTo(c.x + c.tilt + c.r / 4, c.y);
+                    ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 4);
+                    ctx.stroke();
+                });
+
+                update();
+            }
+
+            function update() {
+                let allLanded = true;
+                confettis.forEach(c => {
+                    if (!c.landed) {
+                        c.tiltAngle += c.tiltAngleIncremental;
+                        c.y += c.speed;
+                        c.tilt = Math.sin(c.tiltAngle) * 15;
+                        if (c.y >= groundY - c.r) {
+                            c.y = groundY - c.r;
+                            c.speed = 0;
+                            c.landed = true;
+                        } else {
+                            allLanded = false;
+                        }
+                    }
+                });
+
+                if (allLanded && !fadeOutStarted) {
+                    fadeOutConfettis();
+                }
+            }
+
+            const interval = setInterval(draw, 20);
+
+            // Après 3 secondes : enlever le blur et fade le texte
+            setTimeout(() => {
+                const overlay = document.getElementById('newyear-overlay');
+                if (overlay) overlay.style.backdropFilter = "blur(0px)";
+                document.body.classList.remove('no-scroll');
+
+                const fadeText = setInterval(() => {
+                    textOpacity -= 0.02;
+                    const textDiv = document.querySelector('.newyear-text');
+                    if (textDiv) textDiv.style.opacity = textOpacity;
+                    if (textOpacity <= 0) clearInterval(fadeText);
+                }, 20);
+
+            }, 3000);
+
+            // CROIX DE FERMETURE
+            const closeBtn = document.getElementById('close-overlay');
+            closeBtn.addEventListener('click', () => {
+                clearInterval(interval);
+                const overlay = document.getElementById('newyear-overlay');
+                if (overlay) overlay.remove();
+                document.body.classList.remove('no-scroll');
+            });
+
+            function fadeOutConfettis() {
+                fadeOutStarted = true;
+                let alpha = 1;
+                const fadeInterval = setInterval(() => {
+                    alpha -= 0.02;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.globalAlpha = alpha;
+                    confettis.forEach(c => {
+                        ctx.beginPath();
+                        ctx.lineWidth = c.r / 2;
+                        ctx.strokeStyle = c.color;
+                        ctx.moveTo(c.x + c.tilt + c.r / 4, c.y);
+                        ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 4);
+                        ctx.stroke();
+                    });
+                    ctx.globalAlpha = 1;
+                    if (alpha <= 0) {
+                        clearInterval(fadeInterval);
+                        clearInterval(interval);
+                        const overlay = document.getElementById('newyear-overlay');
+                        if (overlay) overlay.remove();
+                    }
+                }, 20);
+            }
+        }
+
+        window.addEventListener('load', () => {
+            document.body.classList.add('no-scroll'); // bloque le scroll pendant l'animation
+            lancerConfettis(300);
+        });
+    </script>
+
 
 </body>
 
